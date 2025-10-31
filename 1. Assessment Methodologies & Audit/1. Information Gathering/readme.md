@@ -21,6 +21,7 @@ Ví dụ: thông qua internet để biết các thông tin như IP, host, websit
 Thu thập các thông tin cơ bản 
 - ip https://search.dnslytics.com/
 - web với `robots.txt`, `sitemap.xml` 
+- wordpress có file backup: `wp-config.bak`
 - Công nghệ sử dụng với extention Wappalyzer
 
 ### Whois Enumeration
@@ -156,6 +157,14 @@ nmap
 lab nmap
 
 
+
+# Lab ctf 
+
+1. robots.txt
+2. `whatweb domain` hoặc `nmap -sCV -A -O target.ine.local`
+3. `dirb domain`  (nếu muốn tìm đệ quy `dirb domain -w`)
+4. file bak: `wp-config.bak`
+5. `httrack domain` - tìm trong code tải về hoặc `grep -i "FLAG5" -R target.ine.local/`
 
 
 
