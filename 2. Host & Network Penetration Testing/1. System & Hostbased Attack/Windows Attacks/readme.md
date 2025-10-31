@@ -125,10 +125,92 @@ một giải pháp thay thế telnet cho phép thực hiện các quy trình tr�
 
 2. Thu hẹp phạm vi tấn công chỉ còn các tài khoản người dùng Win phổ biến, ví dụ: Quản trị viên.
 
-3. Sử dụng thông tin đăng nhập thu được để xác thực thông qua PsExec và thực thi lệnh hệ thống hoặc lấy shell ngược.
+3. Sử dụng thông tin đăng nhập thu được để xác thực thông qua PsExec và thực thi lệnh hệ thống hoặc lấy reverse shell.
 
 
 ## RDP
+
+RDP (Remote Desktop Protocol) - Giao thức truy cập GUI từ xa độc quyền của Microsoft được sử dụng để kết nối từ xa với Windows.
+
+- Cổng: 3389 (TCP) hoặc bất kỳ cổng nào khác
+
+- User Authentication - username & password
+
+- An RDP Client được dùng để connect với mục tiêu
+
+## WinRM
+
+WinRM (Windows Remote Management Protocol) - một giao thức được sử dụng để tạo điều kiện truy cập từ xa với các hệ thống Windows qua HTTP(S).
+
+- Cổng: 5986 - 5986 (HTTPS) (TCP)
+
+- Không được cấu hình theo mặc định
+
+- Được quản trị viên hệ thống sử dụng để:
+    - truy cập, tương tác và thực hiện lệnh từ xa trên máy chủ Windows trên mạng LAN
+    - quản lý và cấu hình hệ thống Windows từ xa
+
+- Nhiều hình thức xác thực khác nhau được sử dụng để kiểm soát truy cập và bảo mật
+
+### WinRM Exploitation
+
+`crackmapexec` - một tập lệnh python, một công cụ đa năng để kiểm tra thâm nhập môi trường Windows/Active Directory. Từ việc liệt kê người dùng đã đăng nhập và theo dõi các chia sẻ SMB cho đến thực hiện các cuộc tấn công theo kiểu psexec, tự động đưa Mimikatz/Shellcode/DLL vào bộ nhớ bằng Powershell, dump NTDS.dit và nhiều hơn nữa.
+
+Có thể sử dụng WinRM để tìm thông tin xác thực hợp lệ.
+
+---
+
+`evil-winrm` - một tập lệnh Ruby được sử dụng để có được phiên shell lệnh trên hệ thống đích
+
+```bash
+evil-winrm -i <IP> -u <USER> -p <PASSWORD>
+```
+
+# Windows Privilege Escalation
+
+Privilege Escalation (privesc) là quá trình khai thác lỗ hổng để leo thang/nâng cao đặc quyền từ người dùng này lên người dùng có quyền quản trị hoặc quyền root.
+
+- đây là một phần quan trọng của quá trình kiểm tra thâm nhập, đặc biệt là sau khi đạt được chỗ đứng ban đầu
+
+## Win Kernel Exploits
+
+Windows NT là Microsoft Windows kernel và gồm 2 chế độ hoạt động
+
+- User Mode - chương trình người dùng cuối có quyền truy cập hạn chế vào tài nguyên hệ thống
+
+- Kernel Mode - quyền truy cập không giới hạn vào tài nguyên hệ thống và chức năng
+
+Kẻ tấn công có thể thực thi mã shell với đặc quyền cao nhất bằng cách nhắm vào các lỗ hổng trong Windows kernel.
+
+
+Quá trình **Windows Kernel Exploitation** sẽ khác nhau tùy thuộc vào hệ thống bị tấn công. Quá trình này bao gồm:
+
+- Xác định lỗ hổng bảo mật của hạt nhân (thông qua các tập lệnh tự động hóa)
+
+- Tải xuống, biên dịch và chuyển các khai thác hạt nhân vào hệ thống mục tiêu, dựa trên phiên bản Windows mục tiêu
+
+[`Windows-Exploit-Suggester`](https://github.com/AonCyberLabs/Windows-Exploit-Suggester) - một công cụ python so sánh mức độ vá lỗi của mục tiêu với cơ sở dữ liệu lỗ hổng của Microsoft để phát hiện các bản vá lỗi tiềm ẩn bị thiếu trên mục tiêu. Nó sẽ thông báo cho người dùng nếu có các lỗ hổng công khai và mô-đun Metasploit nào có sẵn cho các bản tin bị thiếu.
+
+[windows-kernel-exploits](https://github.com/SecWiki/windows-kernel-exploits) - bộ sưu tập Github về Windows Kernel Exploits được sắp xếp theo CVE
+
+
+## UAC Bypass
+
+`UAC (User Account Control)` - một tính năng bảo mật của Windows được sử dụng để ngăn chặn những thay đổi trái phép đối với hệ điều hành. Ngoại trừ trường hợp người quản trị cố tình cấp quyền truy cập cấp quản trị viên vào hệ thống, UAC đảm bảo rằng các chương trình và quy trình luôn hoạt động trong bối cảnh bảo mật của tài khoản không phải quản trị viên.
+
+- Nó yêu cầu sự chấp thuận từ người dùng thuộc nhóm quản trị viên
+
+- Trên các phiên bản Windows hiện đại, kể từ Win Vista
+
+- Biểu mẫu đồng ý sẽ xuất hiện nếu người dùng đã là quản trị viên cục bộ và mở ứng dụng bằng tùy chọn `Run as administrator`:
+
+- Thay vào đó, một tài khoản tiêu chuẩn sẽ được nhắc nhở bằng lời nhắc thông tin xác thực để nhập thông tin xác thực của quản trị viên
+
+- Tùy thuộc vào loại quyền truy cập vào hệ thống Windows, các cuộc tấn công có thể bỏ qua UAC để thực thi các chương trình độc hại.
+
+
+
+
 
 
 
