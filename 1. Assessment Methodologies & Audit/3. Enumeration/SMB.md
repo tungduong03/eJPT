@@ -6,6 +6,8 @@ Khi nói SMB trên Linux là đang nhắc đến SAMBA
 
 port 445 (windows mới) hoặc 139 (windows cũ)
 
+Có 2 xác thực: user, shares
+
 set IP mục tiêu cho tất cả module 
 
 `setg RHOSTS ip` - g là global nên nó set toàn bộ RHOST mặc định là ip đó cho tất cả module 
