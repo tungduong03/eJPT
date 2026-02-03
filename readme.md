@@ -13,3 +13,6 @@ Pentestration Phases
     4.2. Maintaining Persistent Access
     
     4.3. Clear tracks
+
+Các file còn để trống có thể theo dõi theo `https://blog.syselement.com/ine/courses/ejpt` ghi chi tiết và đầy đủ
+
